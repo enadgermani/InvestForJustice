@@ -93,16 +93,7 @@ cd investforjustice
 npm install
 ```
 
-### 3. Environment Setup
-
-Create a `.env` file in the root directory:
-
-```env
-DATABASE_URL="your_postgresql_connection_string"
-VITE_API_BASE_URL="https://vps-1126d382.vps.ovh.net"
-```
-
-### 4. Start Development Server
+### 3. Start Development Server
 
 ```bash
 npm run dev
@@ -236,11 +227,6 @@ This creates optimized static files in the `dist/` directory.
 
 ### Deployment Options
 
-#### Replit Deployments (Recommended)
-- Automatic deployment from repository
-- Built-in CDN and SSL
-- Environment variable management
-
 #### Static Hosting
 - Vercel, Netlify, or GitHub Pages
 - Deploy the `dist/` folder
@@ -256,19 +242,6 @@ COPY . .
 RUN npm run build
 EXPOSE 9001
 CMD ["npm", "start"]
-```
-
-## 🔐 Environment Variables
-
-### Required Variables
-```env
-DATABASE_URL="postgresql://user:password@host:port/database"
-```
-
-### Optional Variables
-```env
-VITE_API_BASE_URL="https://api.investforjustice.com"
-NODE_ENV="production"
 ```
 
 ## 🤝 Contributing
@@ -304,7 +277,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For questions, issues, or contributions:
 
-- **Email**: contact@investforjustice.com
+- **Email**: ??
 - **Issues**: [GitHub Issues](https://github.com/yourusername/investforjustice/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/yourusername/investforjustice/discussions)
 
