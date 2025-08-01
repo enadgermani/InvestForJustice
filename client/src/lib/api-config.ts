@@ -2,6 +2,7 @@
 export const API_CONFIG = {
   // ETF Data API - External service for ETF information and analysis
   ETF_BASE_URL: 'https://vps-1126d382.vps.ovh.net',
+  //ETF_BASE_URL: 'http://127.0.0.1:8000',
   
   // API endpoints
   ENDPOINTS: {

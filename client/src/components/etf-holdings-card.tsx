@@ -23,6 +23,8 @@ interface ETFHoldingsCardProps {
 }
 
 export function ETFHoldingsCard({ etf }: ETFHoldingsCardProps) {
+    console.log('ETF received:', etf.holdings); // <-- Add this line
+
   const [showHoldings, setShowHoldings] = useState(false);
   const [fetchTicker, setFetchTicker] = useState<string | null>(null);
   
@@ -30,10 +32,21 @@ export function ETFHoldingsCard({ etf }: ETFHoldingsCardProps) {
 
   const handleShowHoldings = () => {
     if (!showHoldings && !fetchTicker) {
+      // If holdings are not shown and no ticker is set, fetch the holdings for the current ETF
+      console.log('Fetching holdings for ticker:', etf.symbol);
       setFetchTicker(etf.symbol);
+      console.log('ShowHolding for '+ etf.symbol +' to:', showHoldings);
     }
+    // Toggle the visibility of holdings
+    console.log('Toggling holdings visibility:', !showHoldings);
+
     setShowHoldings(!showHoldings);
   };
+  
+  const formatSummary = (summary?: string | null) => {
+  if (!summary) return null;
+  return summary.replace(/\n/g, '<br>');
+};
 
   const formatPercentage = (percentage: number) => {
     if (percentage === 0) return '0%';
@@ -86,15 +99,21 @@ export function ETFHoldingsCard({ etf }: ETFHoldingsCardProps) {
           </div>
         </div>
 
-        {/* Summary/Description - Fixed minimum height */}
-        <div className="bg-slate-50 rounded-lg p-4 flex-1 min-h-[120px]">
-          <h4 className="text-sm font-semibold text-slate-700 mb-2">Investment Focus</h4>
-          {etf.summary ? (
-            <p className="text-slate-600 text-sm leading-relaxed">{etf.summary}</p>
-          ) : (
-            <p className="text-slate-500 text-sm italic">Summary not available - will be provided when API is updated</p>
-          )}
-        </div>
+      {/* Summary/Description - Fixed minimum height */}
+<div className="bg-slate-50 rounded-lg p-4 flex-1 min-h-[120px]">
+  <h4 className="text-sm font-semibold text-slate-700 mb-2">Major Repsonsability</h4>
+  {etf.summary ? (
+    <div
+      className="text-slate-600 text-sm leading-relaxed space-y-2"
+      dangerouslySetInnerHTML={{ __html: etf.summary }}
+    />
+  ) : (
+    <p className="text-slate-500 text-sm italic">
+      Summary not available - will be provided when API is updated
+    </p>
+  )}
+</div>
+
 
         {/* Ethical Analysis Section */}
         <div className="bg-red-50 border border-red-200 rounded-lg p-4">
@@ -114,15 +133,6 @@ export function ETFHoldingsCard({ etf }: ETFHoldingsCardProps) {
             )}
           </div>
           
-          {/* Show basic holdings snippet only when detailed analysis is NOT shown */}
-          {etf.holdings && !showHoldings && (
-            <div className="mb-3">
-              <p className="text-xs text-red-700 mb-2">Sample Holdings:</p>
-              <div className="text-xs text-red-600 bg-red-100 rounded px-2 py-1">
-                {etf.holdings.length > 100 ? `${etf.holdings.substring(0, 100)}...` : etf.holdings}
-              </div>
-            </div>
-          )}
           
           {/* Mobile-friendly button layout */}
           <div className="space-y-2">
@@ -195,37 +205,37 @@ export function ETFHoldingsCard({ etf }: ETFHoldingsCardProps) {
                     )}
                   </div>
 
-                  {/* Fossil Fuels Holdings */}
-                  <div className="bg-white rounded-lg p-3 border border-red-200">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-red-800">
-                        Fossil Fuels Holdings
-                      </span>
-                      <Badge 
-                        variant="outline" 
-                        className={`text-xs ${getPercentageColor(holdings.FossilFuelsPercentage)} border-current`}
-                      >
-                        {formatPercentage(holdings.FossilFuelsPercentage)}
-                      </Badge>
-                    </div>
-                    
-                    {holdings.FossilFuelsHoldings && holdings.FossilFuelsHoldings.length > 0 ? (
-                      <div className="space-y-1 max-h-40 overflow-y-auto">
-                        {holdings.FossilFuelsHoldings.map((holding, index) => (
-                          <div key={index} className="text-xs text-red-700 bg-red-50 rounded px-2 py-1">
-                            {holding}
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="text-xs text-green-700 bg-green-50 rounded px-2 py-1">
-                        ✓ No fossil fuels holdings detected
-                      </div>
-                    )}
-                  </div>
+                 {/* Fossil Fuels Holdings */}
+           {/*           <div className="bg-white rounded-lg p-3 border border-red-200">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-medium text-red-800">
+                            Fossil Fuels Holdings
+                          </span>
+                          <Badge
+                            variant="outline"
+                            className={`text-xs ${getPercentageColor(holdings.FossilFuelsPercentage)} border-current`}
+                          >
+                            {formatPercentage(holdings.FossilFuelsPercentage)}
+                          </Badge>
+                        </div>
 
-                  {/* Weapons Holdings */}
-                  <div className="bg-white rounded-lg p-3 border border-red-200">
+                        {holdings.FossilFuelsHoldings && holdings.FossilFuelsHoldings.length > 0 ? (
+                          <div className="space-y-1 max-h-40 overflow-y-auto">
+                            {holdings.FossilFuelsHoldings.map((holding, index) => (
+                              <div key={index} className="text-xs text-red-700 bg-red-50 rounded px-2 py-1">
+                                {holding}
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="text-xs text-green-700 bg-green-50 rounded px-2 py-1">
+                            ✓ No fossil fuels holdings detected
+                          </div>
+                        )}
+                      </div>
+           */ }
+            {/* Weapons Holdings */}
+            { /*     <div className="bg-white rounded-lg p-3 border border-red-200">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-medium text-red-800">
                         Weapons Holdings
@@ -252,6 +262,8 @@ export function ETFHoldingsCard({ etf }: ETFHoldingsCardProps) {
                       </div>
                     )}
                   </div>
+
+            */}
                 </div>
               </div>
             ) : (
