@@ -23,6 +23,8 @@ interface ETFHoldingsCardProps {
 }
 
 export function ETFHoldingsCard({ etf }: ETFHoldingsCardProps) {
+    console.log('ETF received:', etf.holdings); // <-- Add this line
+
   const [showHoldings, setShowHoldings] = useState(false);
   const [fetchTicker, setFetchTicker] = useState<string | null>(null);
   
@@ -30,8 +32,14 @@ export function ETFHoldingsCard({ etf }: ETFHoldingsCardProps) {
 
   const handleShowHoldings = () => {
     if (!showHoldings && !fetchTicker) {
+      // If holdings are not shown and no ticker is set, fetch the holdings for the current ETF
+      console.log('Fetching holdings for ticker:', etf.symbol);
       setFetchTicker(etf.symbol);
+      console.log('ShowHolding for '+ etf.symbol +' to:', showHoldings);
     }
+    // Toggle the visibility of holdings
+    console.log('Toggling holdings visibility:', !showHoldings);
+
     setShowHoldings(!showHoldings);
   };
   
@@ -93,7 +101,7 @@ export function ETFHoldingsCard({ etf }: ETFHoldingsCardProps) {
 
       {/* Summary/Description - Fixed minimum height */}
 <div className="bg-slate-50 rounded-lg p-4 flex-1 min-h-[120px]">
-  <h4 className="text-sm font-semibold text-slate-700 mb-2">Major Responsabilities</h4>
+  <h4 className="text-sm font-semibold text-slate-700 mb-2">Major Repsonsability</h4>
   {etf.summary ? (
     <div
       className="text-slate-600 text-sm leading-relaxed space-y-2"
@@ -125,15 +133,6 @@ export function ETFHoldingsCard({ etf }: ETFHoldingsCardProps) {
             )}
           </div>
           
-          {/* Show basic holdings snippet only when detailed analysis is NOT shown */}
-          {etf.holdings && !showHoldings && (
-            <div className="mb-3">
-              <p className="text-xs text-red-700 mb-2">Sample Holdings:</p>
-              <div className="text-xs text-red-600 bg-red-100 rounded px-2 py-1">
-                {etf.holdings.length > 100 ? `${etf.holdings.substring(0, 100)}...` : etf.holdings}
-              </div>
-            </div>
-          )}
           
           {/* Mobile-friendly button layout */}
           <div className="space-y-2">
